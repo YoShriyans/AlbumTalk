@@ -133,8 +133,14 @@ app.post('/api', async (req, res) => {
 
     res.json({ releases });
   } catch (error) {
-    console.error('Error fetching data from Spotify:', error.message);
-    res.status(500).json({ error: 'Failed to fetch album data', details: error.message });
+     console.error("Spotify status:", error.response?.status);
+  console.error("Spotify response:", error.response?.data);
+  console.error("Spotify URL:", error.config?.url);
+
+  res.status(500).json({
+    error: "Failed to fetch album data",
+    details: error.response?.data || error.message
+  });
   }
 });
 
